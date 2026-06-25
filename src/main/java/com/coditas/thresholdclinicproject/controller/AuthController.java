@@ -37,7 +37,7 @@ public class AuthController {
     public String send() {
 
         mailService.sendEmail(
-                "sarveshwani7@gmail.com",
+                "sarveshwani7604@gmail.com",
                 "Spring Boot Test",
                 "Email is working"
         );

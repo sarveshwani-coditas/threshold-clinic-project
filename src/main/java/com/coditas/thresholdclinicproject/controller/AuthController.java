@@ -5,13 +5,11 @@ import com.coditas.thresholdclinicproject.dto.ApplicationResponse;
 import com.coditas.thresholdclinicproject.dto.login.LoginRequest;
 import com.coditas.thresholdclinicproject.dto.login.LoginResponse;
 import com.coditas.thresholdclinicproject.service.AuthService;
+import com.coditas.thresholdclinicproject.service.MailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final MailService mailService;
 
     @PostMapping(ApiPaths.LOGIN)
     public ResponseEntity<ApplicationResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request){
@@ -32,6 +31,18 @@ public class AuthController {
                         .build()
         );
 
+    }
+
+    @GetMapping("/email")
+    public String send() {
+
+        mailService.sendEmail(
+                "sarveshwani7@gmail.com",
+                "Spring Boot Test",
+                "Email is working"
+        );
+
+        return "Sent";
     }
 
 

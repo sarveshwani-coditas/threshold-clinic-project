@@ -124,6 +124,5 @@ public class AppointmentService {
         appointment.setClinician(clinician);
         return appointmentMapper.toDTO(appointment);
 
-
     }
 }

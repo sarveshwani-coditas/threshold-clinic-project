@@ -60,7 +60,6 @@ public class ClinicianService {
         return clinicianMapper.toDTO(savedClinician);
     }
 
-
     public Page<ClinicianResponse> getAllClinician(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
@@ -77,4 +76,5 @@ public class ClinicianService {
         clinicianRepository.delete(clinician);
         log.info("a clinician with id {} successfully deleted ", clinicianId);
     }
+
 }

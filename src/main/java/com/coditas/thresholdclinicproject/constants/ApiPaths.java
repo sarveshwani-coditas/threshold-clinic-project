@@ -14,4 +14,12 @@ public final class ApiPaths {
         public static final String BASE = BASE_PATH + "/patients";
         public static final String ID = "/{id}";
     }
+
+    public static class Admin {
+        private Admin() {
+        }
+
+        public static final String BASE = BASE_PATH + "/admin";
+        public static final String ID = "/{id}";
+    }
 }

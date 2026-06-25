@@ -23,7 +23,7 @@ public class Patient {
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "patient_records_id")
+    @JoinColumn(name = "patient_record_id")
     private PatientRecord patientRecord;
 
 }

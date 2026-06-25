@@ -1,6 +1,6 @@
 package com.coditas.thresholdclinicproject.dto.patient;
 
-import com.coditas.utilitymodule.dto.UserResponse;
+import com.coditas.thresholdclinicproject.dto.users.UserResponse;
 import lombok.Getter;
 import lombok.Setter;
 

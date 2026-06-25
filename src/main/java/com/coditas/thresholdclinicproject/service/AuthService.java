@@ -5,12 +5,14 @@ import com.coditas.thresholdclinicproject.dto.login.LoginRequest;
 import com.coditas.thresholdclinicproject.dto.login.LoginResponse;
 import com.coditas.thresholdclinicproject.exceptions.InvalidCredentialsException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -35,6 +37,7 @@ public class AuthService {
 
             assert user != null;
             String accessToken = jwtService.generateAccessToken(user);
+            log.info("user with email {} successfully authenticated", request.getUsername());
             return LoginResponse.builder()
                     .accessToken(accessToken)
                     .build();

@@ -13,5 +13,6 @@ public final class ExceptionConstants {
     public static final String ROLE_MISMATCH = "NOT_A_VALID_ROLE_FOR_THIS_OPERATION";
     public static final String USER_ROLE_MISMATCH = "THE_RETRIEVED_USER_DOES_NOT_HAVE_REQUIRED_ROLE";
     public static final String REFRESHTOKEN_EXPIRED = "REFRESH_TOKEN_EXPIRED_LOGIN_AGAIN";
-
+    public static final String PATIENT_NOT_FOUND = "patient not exist for this id";
+    public static final String TIME_SLOT_IS_OCCUPIED = "The chosen time slot is already booked, please choose another one";
 }

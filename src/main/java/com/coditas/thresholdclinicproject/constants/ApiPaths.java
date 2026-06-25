@@ -12,8 +12,10 @@ public final class ApiPaths {
         private Patient() {
         }
 
-        public static final String BASE = BASE_PATH + "/patients";
-        public static final String ID = "/{id}";
+        public static final String BASE = "/patients";
+        public static final String ID = "/{patientId}";
+
+        public static final String PATIENTRECORDS = "/patient-record";
     }
 
     public static class Clinician {
@@ -21,6 +23,7 @@ public final class ApiPaths {
         }
 
         public static final String BASE = BASE_PATH + "/clinician";
+        public static final String CLINICIAN = "/clinician";
         public static final String ID = "/{id}";
     }
 

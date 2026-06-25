@@ -4,6 +4,7 @@ import com.coditas.thresholdclinicproject.constants.ApiPaths;
 import com.coditas.thresholdclinicproject.dto.ApplicationResponse;
 import com.coditas.thresholdclinicproject.dto.AppointmentRequest;
 import com.coditas.thresholdclinicproject.dto.AppointmentResponse;
+import com.coditas.thresholdclinicproject.dto.ClinicalNote;
 import com.coditas.thresholdclinicproject.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,21 @@ public class AppointmentController {
                 .data(response)
                 .build()
         );
+    }
 
+    @PreAuthorize("hasRole('CLINICIAN')")
+    @PostMapping(ApiPaths.BASE_PATH + ApiPaths.Appointment.BASE+ApiPaths.Appointment.ID)
+    public ResponseEntity<ApplicationResponse<AppointmentResponse>> addClinicalNote(@PathVariable(name = "id") Integer appointmentId,
+                                                                                    @Valid @RequestBody ClinicalNote request) {
 
+        AppointmentResponse response = appointmentService.addClinicalNote(appointmentId, request);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApplicationResponse.<AppointmentResponse>builder()
+                        .success(true)
+                        .message("Successfully added clinical notes")
+                        .data(response)
+                        .build()
+        );
     }
 
 

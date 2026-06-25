@@ -7,6 +7,7 @@ public final class ApiPaths {
 
     public static final String BASE_PATH = "/api/v1";
     public static final String LOGIN = "/login";
+
     public static class Patient {
         private Patient() {
         }
@@ -15,7 +16,13 @@ public final class ApiPaths {
         public static final String ID = "/{id}";
     }
 
+    public static class Clinician {
+        private Clinician() {
+        }
 
+        public static final String BASE = BASE_PATH + "/clinician";
+        public static final String ID = "/{id}";
+    }
 
     public static class Admin {
         private Admin() {

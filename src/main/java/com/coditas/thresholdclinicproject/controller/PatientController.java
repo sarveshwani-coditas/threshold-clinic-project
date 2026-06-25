@@ -8,6 +8,7 @@ import com.coditas.thresholdclinicproject.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class PatientController {
 
     private final PatientService patientService;
 
+    @PreAuthorize("hasAnyRole('FRONT_DESK_COORDINATOR','PATIENT')")
     @PostMapping
     public ResponseEntity<ApplicationResponse<PatientResponse>> registerPatient(@RequestBody PatientRequest request){
         PatientResponse response = patientService.registerPatient(request);

@@ -1,0 +1,38 @@
+package com.coditas.thresholdclinicproject.controller;
+
+import com.coditas.thresholdclinicproject.constants.ApiPaths;
+import com.coditas.thresholdclinicproject.dto.ApplicationResponse;
+import com.coditas.thresholdclinicproject.dto.login.LoginRequest;
+import com.coditas.thresholdclinicproject.dto.login.LoginResponse;
+import com.coditas.thresholdclinicproject.service.AuthService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(ApiPaths.BASE_PATH)
+public class AuthController {
+
+    private final AuthService authService;
+
+    @PostMapping(ApiPaths.LOGIN)
+    public ResponseEntity<ApplicationResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request){
+        LoginResponse response = authService.login(request);
+
+        return ResponseEntity.ok().body(
+                ApplicationResponse.<LoginResponse>builder()
+                        .success(true)
+                        .message("Successfully logged In")
+                        .data(response)
+                        .build()
+        );
+
+    }
+
+
+}

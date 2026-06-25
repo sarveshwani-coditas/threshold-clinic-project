@@ -24,6 +24,16 @@ public final class ApiPaths {
         public static final String ID = "/{id}";
     }
 
+    public static class Appointment {
+        private Appointment() {
+        }
+
+        public static final String BASE = "/appointments";
+        public static final String PATIENT = "/patient/{patientId}";
+        public  static final String CLINICIAN = "/clinician/{clinicianId}";
+        public static final String ID = "/{id}";
+    }
+
     public static class Admin {
         private Admin() {
         }

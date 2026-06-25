@@ -9,15 +9,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
 @RequiredArgsConstructor
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
 
+    @PreAuthorize("hasAnyRole('FRONT_DESK_COORDINATOR','PATIENT')")
     @PostMapping(ApiPaths.BASE_PATH + ApiPaths.Appointment.PATIENT + ApiPaths.Appointment.CLINICIAN + ApiPaths.Appointment.BASE)
     public ResponseEntity<ApplicationResponse<AppointmentResponse>> bookAppointment(@PathVariable Integer patientId, @PathVariable Integer clinicianId, @Valid @RequestBody AppointmentRequest request) {
 

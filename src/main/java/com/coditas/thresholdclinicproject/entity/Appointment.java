@@ -1,11 +1,14 @@
 package com.coditas.thresholdclinicproject.entity;
 
 import com.coditas.thresholdclinicproject.enums.AppointmentStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,9 +27,11 @@ public class Appointment {
     @JoinColumn(name = "clinician_id")
     private Clinician clinician;
 
-    @Column(name = "time")
-    private Instant time;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss[.SSSSSS]XXX")
+    private LocalDateTime time;
 
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private AppointmentStatus status;
 

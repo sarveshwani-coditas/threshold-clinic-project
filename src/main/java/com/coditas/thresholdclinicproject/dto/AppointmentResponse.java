@@ -1,22 +1,21 @@
 package com.coditas.thresholdclinicproject.dto;
 
-import com.coditas.thresholdclinicproject.entity.Clinician;
-import com.coditas.thresholdclinicproject.entity.Patient;
+import com.coditas.thresholdclinicproject.dto.patient.PatientResponse;
 import com.coditas.thresholdclinicproject.enums.AppointmentStatus;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class AppointmentResponse {
 
-    private Patient patient;
+    private PatientResponse patient;
 
-    private Clinician clinician;
+    private ClinicianResponse clinician;
 
-    private Instant time;
+    private LocalDateTime time;
 
     private AppointmentStatus status;
 

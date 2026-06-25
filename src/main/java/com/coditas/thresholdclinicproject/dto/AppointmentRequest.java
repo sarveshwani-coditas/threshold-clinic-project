@@ -3,13 +3,13 @@ package com.coditas.thresholdclinicproject.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class AppointmentRequest {
 
-    private Instant time;
+    private LocalDateTime time;
 
     private String reasonForVisit;
 

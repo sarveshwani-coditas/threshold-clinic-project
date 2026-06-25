@@ -21,6 +21,9 @@ public class Clinician {
     @Column(name = "specialization")
     private String specialization;
 
+    @Column(name = "is_inactive")
+    private Boolean isInactive;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;

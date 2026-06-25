@@ -110,4 +110,20 @@ public class AppointmentService {
                 .findAllByPatient(patient, pageable)
                 .map(appointmentMapper::toDTO);
     }
+
+    public AppointmentResponse updateClinician(Integer appointmentId, @Valid ClinicianUpdate request) {
+
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.APPOINTMENT_NOT_EXIST)
+        );
+
+        Clinician clinician = clinicianRepository.findById(request.getClinicianId()).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.CLINICIAN_NOT_FOUND)
+        );
+        log.info("Successfully updated clinician for appointment with id {} " + appointmentId);
+        appointment.setClinician(clinician);
+        return appointmentMapper.toDTO(appointment);
+
+
+    }
 }

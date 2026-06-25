@@ -7,11 +7,15 @@ import com.coditas.thresholdclinicproject.entity.Clinician;
 import com.coditas.thresholdclinicproject.entity.User;
 import com.coditas.thresholdclinicproject.enums.Role;
 import com.coditas.thresholdclinicproject.exceptions.DuplicateResourceException;
+import com.coditas.thresholdclinicproject.exceptions.ResourceNotFoundException;
 import com.coditas.thresholdclinicproject.mapper.ClinicianMapper;
 import com.coditas.thresholdclinicproject.repository.ClinicianRepository;
 import com.coditas.thresholdclinicproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +35,7 @@ public class ClinicianService {
     @Transactional
     public ClinicianResponse registerClinician(ClinicianRequest request) {
 
-        if(userRepository.existsByEmail(request.getUser().getEmail())){
+        if (userRepository.existsByEmail(request.getUser().getEmail())) {
             log.warn("Registration failed, user with email {} already exist", request.getUser().getEmail());
             throw new DuplicateResourceException(ExceptionConstants.DUPLICATE_RESOURCE);
         }
@@ -39,6 +43,7 @@ public class ClinicianService {
         Clinician clinician = new Clinician();
         clinician.setName(request.getName());
         clinician.setSpecialization(request.getSpecialization());
+        clinician.setIsInactive(Boolean.FALSE);
 
         User user = new User();
         user.setRole(Role.CLINICIAN);
@@ -53,5 +58,23 @@ public class ClinicianService {
 
         log.info("Successfully registered clinician with id {} ", savedClinician.getId());
         return clinicianMapper.toDTO(savedClinician);
+    }
+
+
+    public Page<ClinicianResponse> getAllClinician(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        log.info("Successfully retrieved all clinicians ");
+        return clinicianRepository
+                .findAll(pageable)
+                .map(clinicianMapper::toDTO);
+    }
+
+    public void deleteClinician(Integer clinicianId) {
+        Clinician clinician = clinicianRepository.findById(clinicianId).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.CLINICIAN_NOT_FOUND)
+        );
+        clinicianRepository.delete(clinician);
+        log.info("a clinician with id {} successfully deleted ", clinicianId);
     }
 }

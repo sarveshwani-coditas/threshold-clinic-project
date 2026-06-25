@@ -14,5 +14,7 @@ public class ClinicianResponse {
 
     private String specialization;
 
+    private Boolean isInactive;
+
     private UserResponse user;
 }

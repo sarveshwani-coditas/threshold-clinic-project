@@ -33,6 +33,20 @@ public class AppointmentController {
         );
     }
 
+    @PreAuthorize("hasAnyRole('FRONT_DESK_COORDINATOR','PATIENT')")
+    @PostMapping(ApiPaths.Admin.ADMIN + ApiPaths.Appointment.BASE + ApiPaths.Appointment.ID)
+    public ResponseEntity<ApplicationResponse<AppointmentResponse>> updateDoctor(@PathVariable(name = "id") Integer appointmentId, @Valid @RequestBody ClinicianUpdate request) {
+
+        AppointmentResponse response = appointmentService.updateClinician(appointmentId, request);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApplicationResponse.<AppointmentResponse>builder()
+                        .success(true)
+                        .message("clinician is successfully assigned for this appointment")
+                        .data(response)
+                        .build()
+        );
+    }
+
     @PreAuthorize("hasRole('CLINICIAN')")
     @PostMapping(ApiPaths.Appointment.BASE + ApiPaths.Appointment.ID)
     public ResponseEntity<ApplicationResponse<AppointmentResponse>> addClinicalNote(@PathVariable(name = "id") Integer appointmentId,
@@ -80,7 +94,7 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasAnyRole('FRONT_DESK_COORDINATOR', 'CLINICIAN')")
-    @GetMapping(ApiPaths.Clinician.CLINICIAN +ApiPaths.Clinician.ID+ ApiPaths.Appointment.BASE)
+    @GetMapping(ApiPaths.Clinician.CLINICIAN + ApiPaths.Clinician.ID + ApiPaths.Appointment.BASE)
     public ResponseEntity<ApplicationResponse<Page<AppointmentResponse>>> getAppointmentsByClinicianId(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
@@ -98,7 +112,7 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasAnyRole('FRONT_DESK_COORDINATOR', 'PATIENT')")
-    @GetMapping(ApiPaths.Patient.BASE +ApiPaths.Patient.ID+ ApiPaths.Appointment.BASE)
+    @GetMapping(ApiPaths.Patient.BASE + ApiPaths.Patient.ID + ApiPaths.Appointment.BASE)
     public ResponseEntity<ApplicationResponse<Page<AppointmentResponse>>> getAppointmentsByPatientId(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,

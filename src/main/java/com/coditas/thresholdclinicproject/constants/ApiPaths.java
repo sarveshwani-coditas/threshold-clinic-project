@@ -42,6 +42,7 @@ public final class ApiPaths {
         }
 
         public static final String BASE = BASE_PATH + "/admin";
+        public static final String ADMIN ="/admin";
         public static final String ID = "/{id}";
     }
 }

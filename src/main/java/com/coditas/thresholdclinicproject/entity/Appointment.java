@@ -29,6 +29,7 @@ public class Appointment {
     private Clinician clinician;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss[.SSSSSS]XXX")
+    @Column(name = "time")
     private LocalDateTime time;
 
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)

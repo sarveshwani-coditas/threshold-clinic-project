@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,7 +20,7 @@ public class AppointmentReminder {
     @Scheduled(cron = "0 0 9 * * *")
     public void sendAppointmentReminders(){
 
-        LocalDateTime afterTwoDays = LocalDateTime.now().plusDays(2);
+        LocalDate afterTwoDays = LocalDate.now().plusDays(2);
 
         List<Appointment> appointmentList = appointmentRepository.findAllByTime(afterTwoDays);
 
@@ -40,7 +40,5 @@ public class AppointmentReminder {
                             """.formatted(patientName)
             );
         }
-
-
     }
 }

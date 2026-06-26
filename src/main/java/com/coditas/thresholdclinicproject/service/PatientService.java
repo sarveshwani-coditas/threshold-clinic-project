@@ -40,11 +40,12 @@ public class PatientService {
     private final PatientRecordMapper patientRecordMapper;
     private final PatientRecordRepository patientRecordRepository;
     private final PatientMapper patientMapper;
+    private final MailService mailService;
 
     @Transactional
     public PatientResponse registerPatient(PatientRequest request) {
 
-        if(userRepository.existsByEmail(request.getUser().getEmail())){
+        if (userRepository.existsByEmail(request.getUser().getEmail())) {
             log.warn("Registration failed, user with email {} already exist", request.getUser().getEmail());
             throw new DuplicateResourceException(ExceptionConstants.DUPLICATE_RESOURCE);
         }
@@ -62,6 +63,12 @@ public class PatientService {
         User savedUser = userRepository.save(user);
         patient.setUser(savedUser);
         Patient savedPatient = patientRepository.save(patient);
+
+        mailService.sendEmail(
+                savedPatient.getUser().getEmail(),
+                "Registration Successful",
+                "You have been successfully registered as patient"
+        );
 
         UserResponse userResponse = UserResponse.builder()
                 .email(savedUser.getEmail())

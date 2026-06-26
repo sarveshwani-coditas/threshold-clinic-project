@@ -2,11 +2,13 @@ package com.coditas.thresholdclinicproject.service;
 
 import com.coditas.thresholdclinicproject.dto.EmailDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MailService {
@@ -22,16 +24,22 @@ public class MailService {
             String body
     ) {
 
-        SimpleMailMessage message =
-                new SimpleMailMessage();
-        message.setFrom(sender);
-        message.setTo(to);
+        try{
+            SimpleMailMessage message =
+                    new SimpleMailMessage();
+            message.setFrom(sender);
+            message.setTo(to);
 
-        message.setSubject(subject);
+            message.setSubject(subject);
 
-        message.setText(body);
+            message.setText(body);
 
-        javaMailSender.send(message);
+            javaMailSender.send(message);
+        }
+        catch(Exception e){
+            log.error("Failed to send email to {}: {}", to, e.getMessage());
+        }
+
     }
 
 

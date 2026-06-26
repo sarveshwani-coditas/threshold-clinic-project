@@ -11,6 +11,7 @@ import com.coditas.thresholdclinicproject.exceptions.ResourceNotFoundException;
 import com.coditas.thresholdclinicproject.mapper.ClinicianMapper;
 import com.coditas.thresholdclinicproject.repository.ClinicianRepository;
 import com.coditas.thresholdclinicproject.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -77,4 +78,22 @@ public class ClinicianService {
         log.info("a clinician with id {} successfully deleted ", clinicianId);
     }
 
+
+    public ClinicianResponse updateClinician(Integer clinicianId, @Valid ClinicianRequest request) {
+        Clinician clinician = clinicianRepository.findById(clinicianId).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.CLINICIAN_NOT_FOUND)
+        );
+
+        if(request.getName()!= null){
+            clinician.setName(request.getName());
+        }
+        if(request.getSpecialization()!=null){
+            clinician.setSpecialization(request.getSpecialization());
+        }
+
+        Clinician savedClinician = clinicianRepository.save(clinician);
+
+        return clinicianMapper.toDTO(savedClinician);
+
+    }
 }

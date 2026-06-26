@@ -70,6 +70,7 @@ public class PatientService {
                 .build();
 
         PatientResponse patientResponse = new PatientResponse();
+        patientResponse.setId(savedPatient.getId());
         patientResponse.setName(savedPatient.getName());
         patientResponse.setUser(userResponse);
 

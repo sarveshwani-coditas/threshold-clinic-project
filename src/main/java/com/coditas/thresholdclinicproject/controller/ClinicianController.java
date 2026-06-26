@@ -51,6 +51,19 @@ public class ClinicianController {
     }
 
     @PreAuthorize("hasRole('FRONT_DESK_COORDINATOR')")
+    @PatchMapping(ApiPaths.Admin.ADMIN + ApiPaths.Clinician.CLINICIAN+ ApiPaths.Clinician.ID)
+    public ResponseEntity<ApplicationResponse<ClinicianResponse>> updateClinician(@PathVariable(name = "id") Integer clinicianId, @Valid @RequestBody ClinicianRequest request) {
+        ClinicianResponse response = clinicianService.updateClinician(clinicianId, request);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApplicationResponse.<ClinicianResponse>builder()
+                        .success(true)
+                        .message("successfully updated a Clinician's record")
+                        .data(response)
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('FRONT_DESK_COORDINATOR')")
     @DeleteMapping(ApiPaths.Admin.ADMIN + ApiPaths.Clinician.CLINICIAN+ ApiPaths.Clinician.ID)
     public ResponseEntity<ApplicationResponse<Void>> deleteClinician(@PathVariable(name = "id") Integer clinicianId) {
         clinicianService.deleteClinician(clinicianId);

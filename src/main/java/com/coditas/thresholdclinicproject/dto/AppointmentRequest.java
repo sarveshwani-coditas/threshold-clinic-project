@@ -1,5 +1,6 @@
 package com.coditas.thresholdclinicproject.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ public class AppointmentRequest {
 
     private LocalDateTime time;
 
+    @NotBlank
     private String reasonForVisit;
 
 }

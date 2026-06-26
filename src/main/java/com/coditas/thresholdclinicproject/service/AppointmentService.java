@@ -29,6 +29,7 @@ public class AppointmentService {
     private final PatientRepository patientRepository;
     private final ClinicianRepository clinicianRepository;
     private final AppointmentMapper appointmentMapper;
+    private final MailService mailService;
 
     public AppointmentResponse bookAppointment(Integer patientId, Integer clinicianId, @Valid AppointmentRequest request) {
 
@@ -48,6 +49,10 @@ public class AppointmentService {
         appointment.setReasonForVisit(request.getReasonForVisit());
 
         Appointment bookedAppointment = appointmentRepository.save(appointment);
+        mailService.sendEmail(
+                patient.getUser().getEmail(),
+                "Appointment Confirmed",
+                "Hi "+ patient.getName()+" Your appointment has been booked and don't forget to complete your intake form before consultation");
 
         log.info("Successfully booked an appointment with id {} ", bookedAppointment.getId());
         return appointmentMapper.toDTO(bookedAppointment);
@@ -62,6 +67,11 @@ public class AppointmentService {
         }
         appointment.setClinicalNotes(request.getClinicalNote());
         Appointment bookedAppointment = appointmentRepository.save(appointment);
+        mailService.sendEmail(
+                appointment.getPatient().getUser().getEmail(),
+                "Clinical Notes Available",
+                "Your last Visit's Clinical Notes are Available by Dr. "+appointment.getClinician().getName()
+        );
 
         log.info("Successfully added an clinical for appointment with id {} ", bookedAppointment.getId());
         return appointmentMapper.toDTO(bookedAppointment);

@@ -20,7 +20,6 @@ public class PatientController {
 
     private final PatientService patientService;
 
-    @PreAuthorize("hasAnyRole('FRONT_DESK_COORDINATOR','PATIENT')")
     @PostMapping(ApiPaths.Patient.BASE)
     public ResponseEntity<ApplicationResponse<PatientResponse>> registerPatient(@RequestBody PatientRequest request) {
         PatientResponse response = patientService.registerPatient(request);

@@ -97,4 +97,12 @@ public class ClinicianService {
         return clinicianMapper.toDTO(savedClinician);
 
     }
+
+    public ClinicianResponse getClinicianById(Integer clinicianId) {
+        Clinician clinician = clinicianRepository.findById(clinicianId).orElseThrow(
+                () -> new ResourceNotFoundException(ExceptionConstants.CLINICIAN_NOT_FOUND)
+        );
+
+        return clinicianMapper.toDTO(clinician);
+    }
 }

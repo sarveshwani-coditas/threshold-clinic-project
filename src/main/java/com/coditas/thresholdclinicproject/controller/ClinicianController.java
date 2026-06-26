@@ -34,6 +34,19 @@ public class ClinicianController {
         );
     }
 
+    @PreAuthorize("hasRole('FRONT_DESK_COORDINATOR')")
+    @GetMapping(ApiPaths.Admin.ADMIN+ApiPaths.Clinician.CLINICIAN+ApiPaths.Clinician.ID)
+    public ResponseEntity<ApplicationResponse<ClinicianResponse>> getClinicianById(@PathVariable(name = "id") Integer clinicianId) {
+        ClinicianResponse response = clinicianService.getClinicianById(clinicianId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApplicationResponse.<ClinicianResponse>builder()
+                        .success(true)
+                        .message("successfully retrieved a Clinician")
+                        .data(response)
+                        .build()
+        );
+    }
+
     @PreAuthorize("hasAnyRole('FRONT_DESK_COORDINATOR', 'PATIENT', 'CLINICIAN')")
     @GetMapping(ApiPaths.Clinician.CLINICIAN)
     public ResponseEntity<ApplicationResponse<Page<ClinicianResponse>>> getAllClinician(

@@ -33,7 +33,7 @@ public class AppointmentController {
         );
     }
 
-    @PreAuthorize("hasAnyRole('FRONT_DESK_COORDINATOR','PATIENT')")
+    @PreAuthorize("hasAnyRole('FRONT_DESK_COORDINATOR')")
     @PostMapping(ApiPaths.Admin.ADMIN + ApiPaths.Appointment.BASE + ApiPaths.Appointment.ID)
     public ResponseEntity<ApplicationResponse<AppointmentResponse>> updateDoctor(@PathVariable(name = "id") Integer appointmentId, @Valid @RequestBody ClinicianUpdate request) {
 

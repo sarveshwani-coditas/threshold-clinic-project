@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+
+
     private final MailService mailService;
+
 
     @PostMapping(ApiPaths.LOGIN)
     public ResponseEntity<ApplicationResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request){
@@ -44,7 +47,6 @@ public class AuthController {
 
         return "Sent";
     }
-
 
 
 

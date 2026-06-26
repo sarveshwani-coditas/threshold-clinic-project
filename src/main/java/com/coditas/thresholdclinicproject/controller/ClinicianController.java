@@ -4,6 +4,7 @@ import com.coditas.thresholdclinicproject.constants.ApiPaths;
 import com.coditas.thresholdclinicproject.dto.ApplicationResponse;
 import com.coditas.thresholdclinicproject.dto.ClinicianRequest;
 import com.coditas.thresholdclinicproject.dto.ClinicianResponse;
+import com.coditas.thresholdclinicproject.dto.ClinicianUpdateRequest;
 import com.coditas.thresholdclinicproject.service.ClinicianService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,7 @@ public class ClinicianController {
 
     @PreAuthorize("hasRole('FRONT_DESK_COORDINATOR')")
     @PatchMapping(ApiPaths.Admin.ADMIN + ApiPaths.Clinician.CLINICIAN+ ApiPaths.Clinician.ID)
-    public ResponseEntity<ApplicationResponse<ClinicianResponse>> updateClinician(@PathVariable(name = "id") Integer clinicianId, @Valid @RequestBody ClinicianRequest request) {
+    public ResponseEntity<ApplicationResponse<ClinicianResponse>> updateClinician(@PathVariable(name = "id") Integer clinicianId, @Valid @RequestBody ClinicianUpdateRequest request) {
         ClinicianResponse response = clinicianService.updateClinician(clinicianId, request);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApplicationResponse.<ClinicianResponse>builder()

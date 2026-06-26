@@ -21,7 +21,7 @@ public class Clinician {
     @Column(name = "specialization")
     private String specialization;
 
-    @Column(name = "is_inactive")
+    @Column(name = "is_inactive", nullable = false)
     private Boolean isInactive;
 
     @OneToOne

@@ -2,6 +2,7 @@ package com.coditas.thresholdclinicproject.exceptions;
 
 import com.coditas.thresholdclinicproject.dto.ApplicationResponse;
 import com.coditas.thresholdclinicproject.dto.ErrorResponse;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -136,6 +137,23 @@ public class GlobalExceptionHandler {
                 ApplicationResponse.<ErrorResponse>builder()
                         .success(false)
                         .message("you are not authorized to access this feature")
+                        .errors(response)
+                        .build()
+        );
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ApplicationResponse<ErrorResponse>> handleExpiredJwtException(ExpiredJwtException ex, HttpServletRequest http) {
+        ErrorResponse response = new ErrorResponse();
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.setMessage(ex.getMessage());
+        response.setPath(http.getRequestURL().toString());
+        response.setTimestamp(Instant.now());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                ApplicationResponse.<ErrorResponse>builder()
+                        .success(false)
+                        .message("your jwt token is expired")
                         .errors(response)
                         .build()
         );

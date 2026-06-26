@@ -3,6 +3,7 @@ package com.coditas.thresholdclinicproject.service;
 import com.coditas.thresholdclinicproject.constants.ExceptionConstants;
 import com.coditas.thresholdclinicproject.dto.ClinicianRequest;
 import com.coditas.thresholdclinicproject.dto.ClinicianResponse;
+import com.coditas.thresholdclinicproject.dto.ClinicianUpdateRequest;
 import com.coditas.thresholdclinicproject.entity.Clinician;
 import com.coditas.thresholdclinicproject.entity.User;
 import com.coditas.thresholdclinicproject.enums.Role;
@@ -79,7 +80,7 @@ public class ClinicianService {
     }
 
 
-    public ClinicianResponse updateClinician(Integer clinicianId, @Valid ClinicianRequest request) {
+    public ClinicianResponse updateClinician(Integer clinicianId, @Valid ClinicianUpdateRequest request) {
         Clinician clinician = clinicianRepository.findById(clinicianId).orElseThrow(
                 () -> new ResourceNotFoundException(ExceptionConstants.CLINICIAN_NOT_FOUND)
         );

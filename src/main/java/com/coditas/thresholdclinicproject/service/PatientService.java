@@ -21,6 +21,7 @@ import com.coditas.thresholdclinicproject.repository.PatientRepository;
 import com.coditas.thresholdclinicproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,6 +42,7 @@ public class PatientService {
     private final PatientRecordRepository patientRecordRepository;
     private final PatientMapper patientMapper;
     private final MailService mailService;
+    private final ChatClient chatClient;
 
     @Transactional
     public PatientResponse registerPatient(PatientRequest request) {
@@ -94,6 +96,12 @@ public class PatientService {
         PatientRecord patientRecord = patientRecordMapper.toEntity(request);
         patientRecord.setCreatedAt(Instant.now());
         patientRecord.setUpdatedAt(Instant.now());
+
+        String aiSummary = chatClient.prompt()
+                .user("Summarize this information and filter which are relavant for clinician "+request.getMedicalHistory())
+                .call()
+                .content();
+        patientRecord.setMedicalHistory(aiSummary);
 
         PatientRecord savedPatientRecord = patientRecordRepository.save(patientRecord);
         patient.setPatientRecord(savedPatientRecord);

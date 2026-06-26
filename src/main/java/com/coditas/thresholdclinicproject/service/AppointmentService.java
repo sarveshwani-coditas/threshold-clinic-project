@@ -91,6 +91,7 @@ public class AppointmentService {
     public Page<AppointmentResponse> getAppointments(int page, int size, AppointmentStatus status) {
         Pageable pageable = PageRequest.of(page, size);
         log.info("Successfully retrieved appointments");
+
         return appointmentRepository
                 .findAllByStatus(status, pageable)
                 .map(appointmentMapper::toDTO);
